@@ -1,5 +1,6 @@
 import net from  "node:net"; 
 import dotenv from "dotenv";
+import { writeHistory } from "../utils/handleHistory.js";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ serverTCP.on("connection", (socket) => {
 
     socket.on("close", () => {
         console.log("Client disconnected");
+        writeHistory("disconnected")
     });
 
     socket.on("error", () => {
@@ -23,6 +25,7 @@ serverTCP.on("connection", (socket) => {
     });
 
     console.log("Client connected", new Date().toLocaleString());
+    writeHistory("connected")
 });
 
 
