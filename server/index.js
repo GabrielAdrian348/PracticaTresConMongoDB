@@ -7,15 +7,18 @@ const port = process.env.PORT || 3500;
 
 const serverTCP = net.createServer()
 
-serverTCP.on("conection", (socket) => {
+serverTCP.on("connection", (socket) => {
 
-    socket.on("data", ()=>{
+    socket.on("data", (bufferData) => {
+        const data = JSON.parse(bufferData.toString());
+        console.log(data)
+    });
 
+    socket.on("close", () => {
+        console.log("Client disconnected");
     });
-    socket.on("close", ()=>{
-        console.log("Client disconnected", new Date().toLocaleString())
-    });
-    socket.on("error", ()=>{
+
+    socket.on("error", () => {
         console.log("Client error", new Date().toLocaleString())
     });
 
