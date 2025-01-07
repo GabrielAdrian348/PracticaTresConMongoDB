@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+
 import fs from "node:fs";
 
 const PATH = "./log/historyUser.json";
@@ -8,11 +8,11 @@ const readHistory = () => {
     return JSON.parse(jsonData.toString());
 }
 
-const writeHistory = (state) => {
+const writeHistory = (state, id) => {
     const data = readHistory();
 
     const register = {
-        id: randomUUID(),
+        id,
         date: new Date().toLocaleString()
     };
 

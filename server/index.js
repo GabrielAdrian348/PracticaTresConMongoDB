@@ -1,5 +1,6 @@
 import net from  "node:net"; 
 import dotenv from "dotenv";
+import { randomUUID } from "node:crypto";
 import { writeHistory } from "../utils/handleHistory.js";
 
 dotenv.config();
@@ -10,6 +11,8 @@ const serverTCP = net.createServer()
 
 serverTCP.on("connection", (socket) => {
 
+    const id = randomUUID();
+
     socket.on("data", (bufferData) => {
         const data = JSON.parse(bufferData.toString());
         console.log(data)
@@ -17,7 +20,7 @@ serverTCP.on("connection", (socket) => {
 
     socket.on("close", () => {
         console.log("Client disconnected");
-        writeHistory("disconnected")
+        writeHistory("disconnected", id)
     });
 
     socket.on("error", () => {
@@ -25,7 +28,7 @@ serverTCP.on("connection", (socket) => {
     });
 
     console.log("Client connected", new Date().toLocaleString());
-    writeHistory("connected")
+    writeHistory("connected", id)
 });
 
 
